@@ -4,6 +4,7 @@
 
 #include <qf/core.hpp>
 #include <qf/math.hpp>
+#include <qf/finance.hpp>
 #include <qf/linalg.hpp>
 
 namespace qf {

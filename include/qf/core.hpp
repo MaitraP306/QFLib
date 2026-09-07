@@ -7,3 +7,4 @@
 #include <qf/core/span.hpp>
 #include <qf/core/time.hpp>
 #include <qf/core/types.hpp>
+#include <qf/core/strong_scalar.hpp>

@@ -19,7 +19,6 @@ option(QFLIB_ENABLE_LTO "Enable link-time optimization for QFLib" ON)
 option(QFLIB_ENABLE_NATIVE_ARCH "Enable host-specific CPU instruction tuning" OFF)
 
 add_library(qflib
-    src/qf.cpp
     src/qf/math/scalar.cpp
     src/qf/math/reductions.cpp
     src/qf/math/polynomial.cpp
