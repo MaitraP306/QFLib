@@ -20,8 +20,7 @@ public:
 
     Matrix() = default;
     Matrix(Count rows, Count cols) : rows_(rows), cols_(cols), data_(rows * cols) {}
-    Matrix(Count rows, Count cols, const T& value)
-        : rows_(rows), cols_(cols), data_(rows * cols, value) {}
+    Matrix(Count rows, Count cols, const T& value) : rows_(rows), cols_(cols), data_(rows * cols, value) {}
 
     Matrix(std::initializer_list<std::initializer_list<T>> values) {
         rows_ = values.size();

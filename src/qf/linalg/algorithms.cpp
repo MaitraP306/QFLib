@@ -220,7 +220,6 @@ Result<Vector<Real>> solve_spd(const Matrix<Real>& A, ConstSpan<Real> b, Toleran
     if (!L) return L.error();
     auto y = solve_lower(L.value(), b, t);
     if (!y) return y.error();
-    // Avoid constructing an explicit transpose matrix: solve L^T x = y directly.
     const Matrix<Real>& M = L.value();
     Vector<Real> x(b.size());
     for (SignedIndex ii = static_cast<SignedIndex>(M.rows()) - 1; ii >= 0; --ii) {
@@ -239,8 +238,6 @@ Result<QRFactorization> qr(const Matrix<Real>& A, Tolerance tolerance) {
     if (A.rows() < A.cols()) return Status{ErrorCode::invalid_argument, "thin QR requires rows >= columns"};
     const Index m = A.rows(), n = A.cols();
 
-    // Compact Householder QR. The strict upper triangle is R; entries below
-    // the diagonal store the reflector vectors. This avoids normal equations.
     Matrix<Real> R = A;
     std::vector<Real> tau(n, 0.0);
     for (Index k = 0; k < n; ++k) {
@@ -273,7 +270,6 @@ Result<QRFactorization> qr(const Matrix<Real>& A, Tolerance tolerance) {
         }
     }
 
-    // Form thin Q by applying H_{n-1} ... H_0 to the first n columns of I_m.
     Matrix<Real> Q(m, n, 0.0);
     for (Index j = 0; j < n; ++j) Q(j, j) = 1.0;
     for (SignedIndex kk = static_cast<SignedIndex>(n) - 1; kk >= 0; --kk) {
@@ -317,8 +313,6 @@ Result<SymmetricEigenFactorization> symmetric_eigen(const Matrix<Real>& A, Toler
     Matrix<Real> V(n, n, 0.0);
     for (Index i = 0; i < n; ++i) V(i, i) = 1.0;
 
-    // Validate symmetry and finite input once. PCA depends on a symmetric
-    // covariance matrix, so silently accepting asymmetric data is undesirable.
     Real scale = 0.0;
     for (Index i = 0; i < n; ++i) {
         for (Index j = i; j < n; ++j) {
@@ -398,8 +392,6 @@ Result<SymmetricEigenFactorization> symmetric_eigen(const Matrix<Real>& A, Toler
     Vector<Real> eigenvalues(n);
     for (Index i = 0; i < n; ++i) eigenvalues[i] = M(i, i);
 
-    // Sort descending by eigenvalue. PCA conventionally exposes the largest
-    // variance directions first. Apply the same permutation to eigenvectors.
     for (Index i = 0; i < n; ++i) {
         Index best = i;
         for (Index j = i + 1; j < n; ++j)

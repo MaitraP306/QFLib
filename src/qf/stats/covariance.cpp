@@ -24,7 +24,6 @@ Result<Real> covariance(ConstSpan<Real> x, ConstSpan<Real> y) noexcept {
 Result<Real> correlation(ConstSpan<Real> x, ConstSpan<Real> y) noexcept {
     auto c = covariance(x, y);
     if (!c) return c.error();
-    // Compute both variances in the same pass rather than scanning each input again.
     if (x.size() < 2) return Status{ErrorCode::invalid_argument, "correlation requires at least two observations"};
     Real mx = 0.0, my = 0.0, m2x = 0.0, m2y = 0.0;
     Count n = 0;
@@ -49,8 +48,6 @@ Result<linalg::Matrix<Real>> covariance_matrix(ConstSpan<Real> const* columns, C
     if (n < 2) return Status{ErrorCode::invalid_argument, "covariance_matrix requires at least two observations"};
     for (Count j = 0; j < column_count; ++j) if (columns[j].size() != n) return Status{ErrorCode::invalid_argument, "covariance_matrix requires equal-length columns"};
     linalg::Matrix<Real> out(column_count, column_count, 0.0);
-    // One covariance pair per upper-triangular entry. This is intentionally
-    // separate from the scalar API so callers can keep the simple interface.
     for (Count i = 0; i < column_count; ++i) for (Count j = i; j < column_count; ++j) {
         auto c = covariance(columns[i], columns[j]);
         if (!c) return c.error();

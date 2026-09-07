@@ -8,8 +8,6 @@
 
 namespace qf::detail {
 
-// Zero-overhead semantic scalar primitive. Financial/domain tags live outside
-// core so the numerical substrate remains domain-neutral.
 template <typename Tag, bool Additive = true>
 class StrongScalar final {
 public:
@@ -20,17 +18,11 @@ public:
 
     [[nodiscard]] constexpr Real value() const noexcept { return value_; }
     constexpr auto operator<=>(const StrongScalar&) const noexcept = default;
-
-    constexpr StrongScalar operator+(const StrongScalar& other) const noexcept
-        requires Additive { return StrongScalar{value_ + other.value_}; }
-    constexpr StrongScalar operator-(const StrongScalar& other) const noexcept
-        requires Additive { return StrongScalar{value_ - other.value_}; }
-    constexpr StrongScalar& operator+=(const StrongScalar& other) noexcept
-        requires Additive { value_ += other.value_; return *this; }
-    constexpr StrongScalar& operator-=(const StrongScalar& other) noexcept
-        requires Additive { value_ -= other.value_; return *this; }
-    constexpr StrongScalar operator-() const noexcept
-        requires Additive { return StrongScalar{-value_}; }
+    constexpr StrongScalar operator+(const StrongScalar& other) const noexcept requires Additive { return StrongScalar{value_ + other.value_}; }
+    constexpr StrongScalar operator-(const StrongScalar& other) const noexcept requires Additive { return StrongScalar{value_ - other.value_}; }
+    constexpr StrongScalar& operator+=(const StrongScalar& other) noexcept requires Additive { value_ += other.value_; return *this; }
+    constexpr StrongScalar& operator-=(const StrongScalar& other) noexcept requires Additive { value_ -= other.value_; return *this; }
+    constexpr StrongScalar operator-() const noexcept requires Additive { return StrongScalar{-value_}; }
 
     constexpr StrongScalar operator*(Real scalar) const noexcept {
         return StrongScalar{value_ * scalar};

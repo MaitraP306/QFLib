@@ -17,7 +17,9 @@ public:
     constexpr Duration() noexcept = default;
     explicit constexpr Duration(rep nanoseconds) noexcept : nanoseconds_(nanoseconds) {}
 
-    [[nodiscard]] static constexpr Duration from_nanoseconds(rep value) noexcept { return Duration{value}; }
+    [[nodiscard]] static constexpr Duration from_nanoseconds(rep value) noexcept { 
+        return Duration{value};
+    }
     [[nodiscard]] static constexpr Duration from_microseconds(rep value) noexcept {
         return Duration{value * 1'000};
     }
@@ -27,15 +29,20 @@ public:
     [[nodiscard]] static constexpr Duration from_seconds(rep value) noexcept {
         return Duration{value * 1'000'000'000};
     }
-
-    [[nodiscard]] constexpr rep count() const noexcept { return nanoseconds_; }
-    [[nodiscard]] constexpr double seconds() const noexcept {
-        return static_cast<double>(nanoseconds_) * 1e-9;
+    [[nodiscard]] constexpr rep count() const noexcept { 
+        return nanoseconds_;
+    }
+    [[nodiscard]] constexpr Real seconds() const noexcept {
+        return static_cast<Real>(nanoseconds_) * 1e-9;
     }
 
     constexpr auto operator<=>(const Duration&) const noexcept = default;
-    constexpr Duration operator+(Duration other) const noexcept { return Duration{nanoseconds_ + other.nanoseconds_}; }
-    constexpr Duration operator-(Duration other) const noexcept { return Duration{nanoseconds_ - other.nanoseconds_}; }
+    constexpr Duration operator+(Duration other) const noexcept { 
+        return Duration{nanoseconds_ + other.nanoseconds_}; 
+    }
+    constexpr Duration operator-(Duration other) const noexcept { 
+        return Duration{nanoseconds_ - other.nanoseconds_}; 
+    }
 
 private:
     rep nanoseconds_ = 0;
@@ -44,8 +51,7 @@ private:
 class Timestamp final {
 public:
     constexpr Timestamp() noexcept = default;
-    explicit constexpr Timestamp(TimestampRep nanoseconds_since_epoch) noexcept
-        : nanoseconds_since_epoch_(nanoseconds_since_epoch) {}
+    explicit constexpr Timestamp(TimestampRep nanoseconds_since_epoch) noexcept : nanoseconds_since_epoch_(nanoseconds_since_epoch) {}
 
     [[nodiscard]] static constexpr Timestamp from_nanoseconds(TimestampRep value) noexcept {
         return Timestamp{value};

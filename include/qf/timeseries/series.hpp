@@ -10,8 +10,6 @@
 
 namespace qf::timeseries {
 
-// Structure-of-arrays time series: timestamps and observations are stored
-// separately for cache-friendly numerical scans over values.
 class TimeSeries final {
 public:
     TimeSeries() = default;
@@ -31,10 +29,8 @@ public:
     [[nodiscard]] Timestamp timestamp(Index i) const noexcept { assert(i < size()); return timestamps_[i]; }
     [[nodiscard]] Real value(Index i) const noexcept { assert(i < size()); return values_[i]; }
 
-    // Validates finite observations and nondecreasing timestamps.
     [[nodiscard]] Status append(Timestamp timestamp, Real value) noexcept;
 
-    // Trusted hot path. Caller guarantees finite value and ordered timestamp.
     void append_unchecked(Timestamp timestamp, Real value) noexcept {
         timestamps_.push_back(timestamp);
         values_.push_back(value);

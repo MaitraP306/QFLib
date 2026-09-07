@@ -24,12 +24,20 @@ add_library(qflib
     src/qf/math/polynomial.cpp
     src/qf/linalg/algorithms.cpp
     src/qf/stats/descriptive.cpp
+    src/qf/stats/online.cpp
     src/qf/stats/covariance.cpp
     src/qf/stats/ols.cpp
     src/qf/stats/pca.cpp
     src/qf/timeseries/series.cpp
     src/qf/timeseries/operations.cpp
     src/qf/stochastic/ou.cpp
+    src/qf/stochastic/processes.cpp
+    src/qf/finance/analytics.cpp
+    src/qf/probability/distributions.cpp
+    src/qf/finance/portfolio.cpp
+    src/qf/finance/risk.cpp
+    src/qf/pricing/black_scholes.cpp
+    src/qf/market/curve.cpp
 )
 
 add_library(qf::qflib ALIAS qflib)

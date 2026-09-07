@@ -9,9 +9,6 @@ int main() {
     using namespace qf::stochastic;
     using qf::timeseries::TimeSeries;
 
-    // Exact AR(1) samples from an OU process with phi = 0.8, mu = 2.0.
-    // With zero innovations the regression relation is exact, which gives a
-    // high-precision test of the continuous/discrete parameter conversion.
     constexpr Real phi = 0.8;
     constexpr Real mu = 2.0;
     Real values[64]{};
@@ -31,9 +28,6 @@ int main() {
     assert(std::abs(p.half_life - std::log(2.0) / expected_theta) < 1e-10);
     assert(p.sigma >= 0.0);
 
-    // Non-zero innovations should produce a finite, positive diffusion
-    // estimate without requiring the finite sample estimator to equal the
-    // population parameter exactly.
     Real noisy[256]{};
     noisy[0] = 4.0;
     for (Index i = 1; i < 256; ++i) {
@@ -45,7 +39,6 @@ int main() {
     assert(noisy_result.value().sigma > 0.0);
     assert(std::isfinite(noisy_result.value().sigma));
 
-    // TimeSeries overload and exact timestamp-spacing validation.
     TimeSeries series{9};
     const auto t0 = Timestamp::from_nanoseconds(1000);
     for (Index i = 0; i < 9; ++i)
@@ -68,7 +61,6 @@ int main() {
     auto irregular_result = estimate_ou(irregular);
     assert(!irregular_result);
 
-    // Explosive/non-mean-reverting persistence is rejected.
     const Real explosive[] = {1.0, 1.1, 1.25, 1.45, 1.75};
     auto bad = estimate_ou(ConstSpan<Real>{explosive}, dt);
     assert(!bad);

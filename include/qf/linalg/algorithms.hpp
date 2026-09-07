@@ -9,7 +9,7 @@
 
 namespace qf::linalg {
 
-// Checked convenience APIs. They may allocate result storage.
+
 [[nodiscard]] Result<Real> dot(ConstSpan<Real> a, ConstSpan<Real> b) noexcept;
 [[nodiscard]] Real dot_unchecked(ConstSpan<Real> a, ConstSpan<Real> b) noexcept;
 [[nodiscard]] Result<Real> squared_norm(ConstSpan<Real> x) noexcept;
@@ -49,12 +49,9 @@ struct QRFactorization final {
 
 struct SymmetricEigenFactorization final {
     Vector<Real> eigenvalues;
-    Matrix<Real> eigenvectors; // Eigenvectors are stored as columns.
+    Matrix<Real> eigenvectors;
 };
 
-// Symmetric eigendecomposition using a numerically stable Jacobi iteration.
-// Intended for moderate-dimensional covariance matrices; eigenvalues are returned
-// in ascending order and eigenvectors are the corresponding orthonormal columns.
 [[nodiscard]] Result<SymmetricEigenFactorization> symmetric_eigen(
     const Matrix<Real>& A, Tolerance tolerance = {});
 

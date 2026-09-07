@@ -10,7 +10,7 @@ function(qflib_set_warnings target)
             -Wpedantic
             -Wconversion
             -Wshadow
-        )
+    )
 
     if(QFLIB_WARNINGS_AS_ERRORS)
         target_compile_options(${target} PRIVATE -Werror)
@@ -28,6 +28,7 @@ function(qflib_enable_sanitizers target)
             PUBLIC
                 -fsanitize=address,undefined
         )
+
     else()
         message(WARNING "Sanitizers are not configured for this compiler.")
     endif()

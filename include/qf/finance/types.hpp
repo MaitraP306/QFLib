@@ -7,8 +7,6 @@
 
 namespace qf::finance {
 
-// Mathematical/financial quantities. Each type is deliberately distinct at
-// compile time while remaining a single double at runtime.
 struct RateTag;
 struct InterestRateTag;
 struct YieldTag;
@@ -57,8 +55,6 @@ using Frequency    = detail::StrongScalar<FrequencyTag>;
 using Percent      = detail::StrongScalar<PercentTag>;
 using BasisPoints   = detail::StrongScalar<BasisPointsTag>;
 
-// Rate-unit conversions are explicit so decimal rates, percentages and basis
-// points cannot be silently mixed. All returned values remain one-word scalars.
 [[nodiscard]] constexpr InterestRate from_percent(Percent percent) noexcept {
     return InterestRate{percent.value() * 0.01};
 }
@@ -98,8 +94,6 @@ using qf::finance::Volatility;
 using qf::finance::Weight;
 using qf::finance::YearFraction;
 
-// Explicitly model the financial algebra that is unambiguous without a
-// currency/instrument type parameter.
 [[nodiscard]] constexpr PriceDelta operator-(Price lhs, Price rhs) noexcept {
     return PriceDelta{lhs.value() - rhs.value()};
 }
@@ -147,16 +141,12 @@ using qf::finance::YearFraction;
 
 namespace qf::finance {
 
-// Generic financial scalars are valid when finite. Domain-specific overloads
-// below add tighter invariants where the mathematics defines them.
 template <typename T>
 requires detail::StrongScalarType<T>
 [[nodiscard]] constexpr bool valid(T x) noexcept {
     return std::isfinite(x.value());
 }
 
-// Boundary validation helpers. Constructors remain unchecked so hot loops can
-// construct/copy values without branches; callers validate external data once.
 [[nodiscard]] constexpr bool valid(Probability x) noexcept {
     return x.value() >= 0.0 && x.value() <= 1.0;
 }

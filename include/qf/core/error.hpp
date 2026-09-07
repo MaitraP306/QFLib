@@ -20,8 +20,7 @@ enum class ErrorCode {
 class Status final {
 public:
     constexpr Status() noexcept = default;
-    constexpr Status(ErrorCode code, std::string_view message) noexcept
-        : code_(code), message_(message) {}
+    constexpr Status(ErrorCode code, std::string_view message) noexcept : code_(code), message_(message) {}
 
     [[nodiscard]] constexpr bool ok() const noexcept { return code_ == ErrorCode::none; }
     [[nodiscard]] constexpr ErrorCode code() const noexcept { return code_; }

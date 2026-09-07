@@ -21,8 +21,6 @@ int main() {
     static_assert(sizeof(InterestRate) == sizeof(double));
     static_assert(std::is_trivially_copyable_v<InterestRate>);
     static_assert(std::is_standard_layout_v<InterestRate>);
-
-    // Distinct semantic types cannot be accidentally mixed.
     static_assert(!Addable<InterestRate, Yield>);
     static_assert(!Addable<Price, Price>);
     static_assert(!Addable<Return, Return>);

@@ -6,8 +6,6 @@
 #include <qf/stats/pca.hpp>
 
 int main() {
-    // Two perfectly correlated features with different scales. The first
-    // principal direction should explain essentially all sample variance.
     qf::linalg::Matrix<qf::Real> X(6, 2);
     const qf::Real x0[] = {1, 2, 3, 4, 5, 6};
     for (qf::Index i = 0; i < 6; ++i) {
@@ -34,7 +32,6 @@ int main() {
     assert(projected.value().rows() == 6);
     assert(projected.value().cols() == 2);
 
-    // Centering means the projected sample mean should be approximately zero.
     qf::Real mean0 = 0.0;
     qf::Real mean1 = 0.0;
     for (qf::Index i = 0; i < 6; ++i) {

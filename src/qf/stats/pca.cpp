@@ -15,8 +15,6 @@ Result<linalg::Vector<Real>> feature_means(const linalg::Matrix<Real>& X) {
     const Count p = X.cols();
     linalg::Vector<Real> means(p, 0.0);
 
-    // Compensated summation per feature avoids avoidable loss of precision
-    // when prices/returns contain a large common level.
     linalg::Vector<Real> compensation(p, 0.0);
     for (Index i = 0; i < n; ++i) {
         const Real* row = X.row(i).data();
@@ -37,9 +35,7 @@ Result<linalg::Vector<Real>> feature_means(const linalg::Matrix<Real>& X) {
 
 } // namespace
 
-Result<PCAResult> pca_fit(const linalg::Matrix<Real>& observations,
-                          Count n_components,
-                          Tolerance tolerance) {
+Result<PCAResult> pca_fit(const linalg::Matrix<Real>& observations, Count n_components, Tolerance tolerance) {
     const Count n = observations.rows();
     const Count p = observations.cols();
     if (n == 0 || p == 0)
@@ -54,8 +50,6 @@ Result<PCAResult> pca_fit(const linalg::Matrix<Real>& observations,
     if (!means_result) return means_result.error();
     auto means = std::move(means_result.value());
 
-    // Form the sample covariance directly from centered observations without
-    // materializing an additional n x p centered matrix.
     linalg::Matrix<Real> covariance(p, p, 0.0);
     for (Index i = 0; i < n; ++i) {
         const Real* row = observations.row(i).data();
@@ -93,7 +87,6 @@ Result<PCAResult> pca_fit(const linalg::Matrix<Real>& observations,
         return Status{ErrorCode::numerical_failure, "PCA covariance spectrum is non-finite"};
 
     for (Index k = 0; k < n_components; ++k) {
-        // Roundoff can create tiny negative eigenvalues for a PSD covariance.
         result.eigenvalues[k] = std::max(0.0, values[k]);
         result.explained_variance_ratio[k] =
             total_variance > 0.0 ? result.eigenvalues[k] / total_variance : 0.0;
@@ -104,8 +97,7 @@ Result<PCAResult> pca_fit(const linalg::Matrix<Real>& observations,
     return result;
 }
 
-Result<linalg::Matrix<Real>> pca_transform(const PCAResult& model,
-                                            const linalg::Matrix<Real>& observations) {
+Result<linalg::Matrix<Real>> pca_transform(const PCAResult& model, const linalg::Matrix<Real>& observations) {
     const Count n = observations.rows();
     const Count p = observations.cols();
     const Count k = model.components.rows();
@@ -130,9 +122,7 @@ Result<linalg::Matrix<Real>> pca_transform(const PCAResult& model,
     return projected;
 }
 
-Result<linalg::Matrix<Real>> pca_fit_transform(const linalg::Matrix<Real>& observations,
-                                                Count n_components,
-                                                Tolerance tolerance) {
+Result<linalg::Matrix<Real>> pca_fit_transform(const linalg::Matrix<Real>& observations, Count n_components, Tolerance tolerance) {
     auto model = pca_fit(observations, n_components, tolerance);
     if (!model) return model.error();
     return pca_transform(model.value(), observations);

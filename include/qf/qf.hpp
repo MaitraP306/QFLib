@@ -10,7 +10,7 @@
 namespace qf {
 
 [[nodiscard]] constexpr std::string_view version() noexcept {
-    return "0.1.0";
+    return "1.0.0";
 }
 
 } // namespace qf
@@ -18,3 +18,10 @@ namespace qf {
 #include <qf/stats.hpp>
 #include <qf/timeseries.hpp>
 #include <qf/stochastic.hpp>
+#include <qf/optimization.hpp>
+#include <qf/probability.hpp>
+#include <qf/portfolio.hpp>
+#include <qf/risk.hpp>
+#include <qf/pricing.hpp>
+
+#include <qf/market.hpp>
