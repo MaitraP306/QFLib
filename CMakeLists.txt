@@ -38,6 +38,7 @@ add_library(qflib
     src/qf/finance/risk.cpp
     src/qf/pricing/black_scholes.cpp
     src/qf/market/curve.cpp
+    src/qf/optimization/L1_L2_regression.cpp
 )
 
 add_library(qf::qflib ALIAS qflib)

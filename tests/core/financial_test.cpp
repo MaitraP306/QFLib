@@ -63,6 +63,6 @@ int main() {
     assert(valid(Frequency{252.0}));
     assert(!valid(Frequency{0.0}));
     assert(std::isfinite(to_percent(rate).value()));
-
+    
     return 0;
 }

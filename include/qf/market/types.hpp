@@ -7,6 +7,10 @@
 namespace qf::market {
 using InstrumentId = std::uint32_t;
 using VenueId = std::uint16_t;
+enum class Side : std::uint8_t {Buy,Sell};
+[[nodiscard]] constexpr Int sign(Side side) noexcept {
+    return side == Side::Buy ? 1 : -1;
+}
 inline constexpr InstrumentId invalid_instrument = 0;
 inline constexpr VenueId invalid_venue = 0;
 struct Quote final { Timestamp timestamp{}; InstrumentId instrument=0; VenueId venue=0; finance::Price bid{}; finance::Price ask{}; finance::Quantity bid_size{}; finance::Quantity ask_size{};

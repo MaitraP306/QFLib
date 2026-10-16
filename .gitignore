@@ -1,28 +1,18 @@
-# Build directories
 build/
 cmake-build-*/
 out/
-
-# IDE
 .vscode/
 .idea/
-
-# macOS
+.clangd
 .DS_Store
-
-# CMake
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 install_manifest.txt
 compile_commands.json
-
-# Compiled artifacts
 *.o
 *.a
 *.so
 *.dylib
 *.exe
-
-# Test/benchmark output
 Testing/

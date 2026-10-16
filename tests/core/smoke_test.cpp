@@ -20,7 +20,7 @@ bool check(bool condition, const char* message) {
 int main() {
     bool ok = true;
 
-    ok &= check(qf::version() == std::string_view{"0.1.0"}, "version");
+    ok &= check(qf::version() == std::string_view{"1.0.0"}, "version");
     ok &= check(qf::almost_equal(1.0, 1.0 + 1e-12), "almost_equal");
     ok &= check(!qf::almost_equal(1.0, 1.1), "almost_equal rejects distant values");
     ok &= check(qf::is_finite(1.0), "is_finite");

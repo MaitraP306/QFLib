@@ -15,6 +15,12 @@ add_executable(qflib_financial_type_tests
 target_link_libraries(qflib_financial_type_tests PRIVATE qf::qflib)
 add_test(NAME qflib_financial_type_tests COMMAND qflib_financial_type_tests)
 
+add_executable(qflib_scale_tests
+    core/scale_test.cpp
+)
+target_link_libraries(qflib_scale_tests PRIVATE qf::qflib)
+add_test(NAME qflib_scale_tests COMMAND qflib_scale_tests)
+
 add_executable(qflib_linalg_tests
     linalg/linalg_test.cpp
 )
