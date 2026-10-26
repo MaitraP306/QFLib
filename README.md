@@ -5,7 +5,7 @@ sit underneath a strategy-independent research and trading stack.
 
 ------------------------------------------------------------------------
 
-# Installation and build
+# Installation and build 
 
 ## Requirements
 
